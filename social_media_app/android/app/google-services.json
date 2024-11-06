@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "740015777507",
+    "project_id": "social-media-app-bf729",
+    "storage_bucket": "social-media-app-bf729.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740015777507:android:3904bed49afb75cb4707d6",
+        "android_client_info": {
+          "package_name": "com.example.socialMediaAppTutoria"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUWeISmHzlBIL7VFTufDcQFXqGRRtUDpQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
