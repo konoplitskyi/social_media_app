@@ -1,11 +1,18 @@
+import 'dart:typed_data';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/features/profile/domain/repository/profile_repo.dart';
 import 'package:social_media_app/features/profile/presenation/cubit/profile_states.dart';
+import 'package:social_media_app/storage/domain/storage_repo.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final ProfileRepo profileRepo;
+  final StorageRepo storageRepo;
 
-  ProfileCubit({required this.profileRepo}) : super(ProfileInitial());
+  ProfileCubit({
+    required this.profileRepo,
+    required this.storageRepo,
+  }) : super(ProfileInitial());
 
   Future<void> fetchUserProfile(String uid) async {
     try {
@@ -24,6 +31,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> updateProfile({
     required String uid,
     String? newBio,
+    Uint8List? imageWebBytes,
+    String? imageMobilePath,
   }) async {
     emit(ProfileLoading());
     try {
@@ -33,8 +42,27 @@ class ProfileCubit extends Cubit<ProfileState> {
         return;
       }
 
-      final updatedUser =
-          currentUser.copyWith(newBio: newBio ?? currentUser.bio);
+      String? imageDownloadUrl;
+
+      if (imageWebBytes != null || imageMobilePath != null) {
+        if (imageMobilePath != null) {
+          imageDownloadUrl =
+              await storageRepo.uploadProfileImageMobile(imageMobilePath, uid);
+        } else if (imageWebBytes != null) {
+          imageDownloadUrl =
+              await storageRepo.uploadProfileImageWeb(imageWebBytes, uid);
+        }
+
+        if (imageDownloadUrl == null) {
+          emit(ProfileError('Failed to upload image'));
+          return;
+        }
+      }
+
+      final updatedUser = currentUser.copyWith(
+        newBio: newBio ?? currentUser.bio,
+        newProfileImageUrl: imageDownloadUrl ?? currentUser.profileImageUrl,
+      );
 
       await profileRepo.updateProfile(updatedUser);
 
