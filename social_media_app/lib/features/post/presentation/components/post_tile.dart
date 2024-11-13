@@ -53,6 +53,32 @@ class _PostTileState extends State<PostTile> {
     }
   }
 
+  Future<void> toggleLikePost(bool isLiked) async {
+    // optimistically like & update UI
+    setState(() {
+      if (isLiked) {
+        widget.post.likes.remove(currentUser!.uid);
+      } else {
+        widget.post.likes.add(currentUser!.uid);
+      }
+    });
+
+    postCubit.postRepo
+        .toggleLikePost(widget.post.id, currentUser!.uid)
+        .catchError(
+      (error) {
+        // if there's an error, revert back to originals values
+        setState(() {
+          if (isLiked) {
+            widget.post.likes.add(currentUser!.uid); // revert unlike
+          } else {
+            widget.post.likes.remove(currentUser!.uid); // revert like
+          }
+        });
+      },
+    );
+  }
+
   void showOptions() {
     showDialog(
       context: context,
@@ -77,6 +103,8 @@ class _PostTileState extends State<PostTile> {
 
   @override
   Widget build(BuildContext context) {
+    final isLiked = widget.post.likes.contains(currentUser!.uid);
+
     return Container(
       color: Theme.of(context).colorScheme.secondary,
       child: Column(
@@ -136,8 +164,30 @@ class _PostTileState extends State<PostTile> {
             padding: const EdgeInsets.all(20),
             child: Row(
               children: [
-                const Icon(Icons.favorite_border),
-                const Text("0"),
+                SizedBox(
+                  width: 50,
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () => toggleLikePost(isLiked),
+                        child: Icon(
+                          isLiked ? Icons.favorite : Icons.favorite_border,
+                          color: isLiked
+                              ? Colors.red
+                              : Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        widget.post.likes.length.toString(),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(width: 20),
                 const Icon(Icons.comment),
                 const Text("0"),
