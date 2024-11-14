@@ -8,14 +8,14 @@ class PostsLoading extends PostState {}
 
 class PostsUploading extends PostState {}
 
-class PostLoaded extends PostState {
+class PostsLoaded extends PostState {
   final List<Post> posts;
 
-  PostLoaded(this.posts);
+  PostsLoaded(this.posts);
 }
 
-class PostError extends PostState {
+class PostsError extends PostState {
   final String message;
 
-  PostError(this.message);
+  PostsError(this.message);
 }

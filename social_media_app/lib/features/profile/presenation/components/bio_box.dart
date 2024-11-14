@@ -11,8 +11,10 @@ class BioBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(25),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondary,
+        borderRadius: BorderRadius.circular(8),
       ),
       width: double.infinity,
       child: Text(

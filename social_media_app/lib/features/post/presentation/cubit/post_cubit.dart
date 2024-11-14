@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_media_app/features/post/domain/entittes/comment.dart';
 import 'package:social_media_app/features/post/domain/entittes/post.dart';
 import 'package:social_media_app/features/post/domain/repository/post_repo.dart';
 import 'package:social_media_app/features/post/presentation/cubit/post_states.dart';
@@ -21,10 +22,10 @@ class PostCubit extends Cubit<PostState> {
 
     try {
       if (imagePath != null) {
-        emit(PostsLoading());
+        emit(PostsUploading());
         imageUrl = await storageRepo.uploadPostImageMobile(imagePath, post.id);
       } else if (imageBytes != null) {
-        emit(PostsLoading());
+        emit(PostsUploading());
         imageUrl = await storageRepo.uploadPostImageWeb(imageBytes, post.id);
       }
 
@@ -33,7 +34,7 @@ class PostCubit extends Cubit<PostState> {
       postRepo.createPost(newPost);
       fetchAllPosts();
     } catch (e) {
-      emit(PostError('Failed to create post: $e'));
+      emit(PostsError('Failed to create post: $e'));
     }
   }
 
@@ -41,19 +42,18 @@ class PostCubit extends Cubit<PostState> {
     try {
       emit(PostsLoading());
       final posts = await postRepo.fetchAllPosts();
-      emit(PostLoaded(posts));
+      emit(PostsLoaded(posts));
     } catch (e) {
-      emit(PostError('Failed to fetch posts: $e'));
+      emit(PostsError('Failed to fetch posts: $e'));
     }
   }
 
   Future<void> deletePost(String postId) async {
     try {
       await postRepo.deletePost(postId);
-      deletePost(postId);
       fetchAllPosts();
     } catch (e) {
-      emit(PostError('Failed to delete post: $e'));
+      emit(PostsError('Failed to delete post: $e'));
     }
   }
 
@@ -61,7 +61,27 @@ class PostCubit extends Cubit<PostState> {
     try {
       await postRepo.toggleLikePost(postId, userId);
     } catch (e) {
-      emit(PostError('Failed to toggle like: $e'));
+      emit(PostsError('Failed to toggle like: $e'));
+    }
+  }
+
+  Future<void> addComment(String postId, Comment comment) async {
+    try {
+      await postRepo.addComment(postId, comment);
+
+      await fetchAllPosts();
+    } catch (e) {
+      emit(PostsError('Failed to add comment: $e'));
+    }
+  }
+
+  Future<void> deleteComment(String postId, String commentId) async {
+    try {
+      await postRepo.deleteComment(postId, commentId);
+
+      await fetchAllPosts();
+    } catch (e) {
+      emit(PostsError('Failed to delete comment: $e'));
     }
   }
 }

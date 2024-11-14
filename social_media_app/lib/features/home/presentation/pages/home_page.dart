@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state is PostLoaded) {
+          } else if (state is PostsLoaded) {
             final allPosts = state.posts;
 
             if (allPosts.isEmpty) {
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             );
-          } else if (state is PostError) {
+          } else if (state is PostsError) {
             return Center(
               child: Text(
                 state.message,

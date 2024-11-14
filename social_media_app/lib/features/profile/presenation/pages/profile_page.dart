@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/features/auth/domain/entities/app_user.dart';
 import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.dart';
+import 'package:social_media_app/features/post/presentation/components/post_tile.dart';
+import 'package:social_media_app/features/post/presentation/cubit/post_cubit.dart';
+import 'package:social_media_app/features/post/presentation/cubit/post_states.dart';
 import 'package:social_media_app/features/profile/presenation/components/bio_box.dart';
 import 'package:social_media_app/features/profile/presenation/cubit/profile_cubit.dart';
 import 'package:social_media_app/features/profile/presenation/cubit/profile_states.dart';
@@ -10,9 +13,12 @@ import 'package:social_media_app/features/profile/presenation/pages/edit_profile
 
 class ProfilePage extends StatefulWidget {
   final String uid;
+  final bool isOwnPost;
+
   const ProfilePage({
     super.key,
     required this.uid,
+    required this.isOwnPost,
   });
 
   @override
@@ -24,6 +30,9 @@ class _ProfilePageState extends State<ProfilePage> {
   late final profileCubit = context.read<ProfileCubit>();
 
   late AppUser? currentUser = authCubit.currentUser;
+
+  int postCount = 0;
+
   @override
   void initState() {
     super.initState();
@@ -43,23 +52,26 @@ class _ProfilePageState extends State<ProfilePage> {
               title: Text(user.name),
               foregroundColor: Theme.of(context).colorScheme.primary,
               actions: [
-                IconButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditProfilePage(user: user),
+                if (widget.isOwnPost)
+                  IconButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProfilePage(user: user),
+                      ),
                     ),
-                  ),
-                  icon: const Icon(Icons.settings),
-                )
+                    icon: const Icon(Icons.settings),
+                  )
               ],
             ),
-            body: Column(
+            body: ListView(
               children: [
-                Text(
-                  user.email,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
+                Center(
+                  child: Text(
+                    user.email,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 25),
@@ -108,16 +120,47 @@ class _ProfilePageState extends State<ProfilePage> {
                 BioBox(text: user.bio),
                 Padding(
                   padding: const EdgeInsets.only(left: 25, top: 25),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Posts',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    'Posts',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
+                ),
+                const SizedBox(height: 10),
+                BlocBuilder<PostCubit, PostState>(
+                  builder: (context, state) {
+                    if (state is PostsLoaded) {
+                      final userPosts = state.posts
+                          .where((post) => post.userId == widget.uid)
+                          .toList();
+
+                      postCount = userPosts.length;
+
+                      return ListView.builder(
+                        itemCount: postCount,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final post = userPosts[index];
+
+                          return PostTile(
+                            post: post,
+                            onDeletePressed: () =>
+                                context.read<PostCubit>().deletePost(post.id),
+                          );
+                        },
+                      );
+                    } else if (state is PostsLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      return const Center(
+                        child: Text('No posts...'),
+                      );
+                    }
+                  },
                 ),
               ],
             ),

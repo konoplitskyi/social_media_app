@@ -78,6 +78,7 @@ class _UploadPostPageState extends State<UploadPostPage> {
       imageUrl: '',
       timestamp: DateTime.now(),
       likes: [],
+      comments: [],
     );
 
     final postCubit = context.read<PostCubit>();
@@ -92,13 +93,11 @@ class _UploadPostPageState extends State<UploadPostPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<PostCubit, PostState>(
       listener: (context, state) {
-        if (state is PostLoaded) {
+        if (state is PostsLoaded) {
           Navigator.pop(context);
         }
       },
       builder: (context, state) {
-        print(state);
-
         if (state is PostsLoading || state is PostsUploading) {
           return const Scaffold(
             body: Center(
