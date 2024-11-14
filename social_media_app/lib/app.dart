@@ -12,7 +12,7 @@ import 'package:social_media_app/features/profile/presenation/cubit/profile_cubi
 import 'package:social_media_app/features/search/data/firebase_search_repo.dart';
 import 'package:social_media_app/features/search/presentation/cubit/search_cubit.dart';
 import 'package:social_media_app/storage/data/firebase_storage_repo.dart';
-import 'package:social_media_app/themes/light_mode.dart';
+import 'package:social_media_app/themes/theme_cubit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -46,30 +46,33 @@ class MyApp extends StatelessWidget {
         BlocProvider<SearchCubit>(
           create: (context) => SearchCubit(searchRepo: firebaseSearchRepo),
         ),
+        BlocProvider<ThemeCubit>(create: (context) => ThemeCubit()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: lightMode,
-        home: BlocConsumer<AuthCubit, AuthState>(
-          builder: (context, authState) {
-            if (authState is Unauthenticated) {
-              return const AuthPage();
-            }
-            if (authState is Authenticated) {
-              return const HomePage();
-            } else {
-              return _laoding();
-            }
-          },
-          listener: (context, state) {
-            if (state is AuthError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                ),
-              );
-            }
-          },
+      child: BlocBuilder<ThemeCubit, ThemeData>(
+        builder: (context, currentTheme) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: currentTheme,
+          home: BlocConsumer<AuthCubit, AuthState>(
+            builder: (context, authState) {
+              if (authState is Unauthenticated) {
+                return const AuthPage();
+              }
+              if (authState is Authenticated) {
+                return const HomePage();
+              } else {
+                return _laoding();
+              }
+            },
+            listener: (context, state) {
+              if (state is AuthError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                  ),
+                );
+              }
+            },
+          ),
         ),
       ),
     );
