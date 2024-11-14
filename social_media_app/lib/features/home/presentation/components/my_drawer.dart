@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:social_media_app/features/home/presentation/components/my_drawer_tile.dart';
 import 'package:social_media_app/features/profile/presenation/pages/profile_page.dart';
+import 'package:social_media_app/features/search/presentation/pages/search_page.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -52,7 +53,16 @@ class MyDrawer extends StatelessWidget {
               MyDrawerTile(
                 title: 'S E A R C H',
                 icon: Icons.search,
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pop();
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchPage(),
+                    ),
+                  );
+                },
               ),
               MyDrawerTile(
                 title: 'S E T T I N G S',
