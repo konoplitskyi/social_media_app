@@ -32,7 +32,7 @@ class PostCubit extends Cubit<PostState> {
       final newPost = post.copyWith(imageUrl: imageUrl);
 
       postRepo.createPost(newPost);
-      fetchAllPosts();
+      await fetchAllPosts();
     } catch (e) {
       emit(PostsError('Failed to create post: $e'));
     }
@@ -51,7 +51,7 @@ class PostCubit extends Cubit<PostState> {
   Future<void> deletePost(String postId) async {
     try {
       await postRepo.deletePost(postId);
-      fetchAllPosts();
+      await fetchAllPosts();
     } catch (e) {
       emit(PostsError('Failed to delete post: $e'));
     }

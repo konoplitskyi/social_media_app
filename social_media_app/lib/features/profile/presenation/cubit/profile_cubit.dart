@@ -15,7 +15,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     required this.storageRepo,
   }) : super(ProfileInitial());
 
-  // fetch use profile using repo -> useful for loading single profile pages
+  // fetch user profile using repo -> useful for loading single profile pages
   Future<void> fetchUserProfile(String uid) async {
     try {
       emit(ProfileLoading());
@@ -77,6 +77,14 @@ class ProfileCubit extends Cubit<ProfileState> {
       await fetchUserProfile(uid);
     } catch (e) {
       emit(ProfileError('Error updating profile: $e'));
+    }
+  }
+
+  Future<void> toggleFollow(String currentUid, String targetUid) async {
+    try {
+      await profileRepo.toggleFollow(currentUid, targetUid);
+    } catch (e) {
+      emit(ProfileError('Error toggling follow: $e'));
     }
   }
 }

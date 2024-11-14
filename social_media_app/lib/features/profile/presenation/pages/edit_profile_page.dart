@@ -132,7 +132,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                   clipBehavior: Clip.hardEdge,
                   child:
-
                       // display selected image for mobile
                       (!kIsWeb && imagePickedFile != null)
                           ? Image.file(
@@ -147,7 +146,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   fit: BoxFit.cover,
                                 )
                               :
-                              // no image selected ->display existing profile pic
+                              // no image selected -> display existing profile pic
                               CachedNetworkImage(
                                   imageUrl: widget.user.profileImageUrl,
 

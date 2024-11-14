@@ -169,7 +169,6 @@ class _PostTileState extends State<PostTile> {
               MaterialPageRoute(
                 builder: (context) => ProfilePage(
                   uid: widget.post.userId,
-                  isOwnPost: isOwnPost,
                 ),
               ),
             ),
@@ -182,6 +181,17 @@ class _PostTileState extends State<PostTile> {
                   postUser?.profileImageUrl != null
                       ? CachedNetworkImage(
                           imageUrl: postUser!.profileImageUrl,
+                          placeholder: (context, url) => const SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: Center(
+                              child: SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                          ),
                           errorWidget: (context, url, error) =>
                               const Icon(Icons.person),
                           imageBuilder: (context, imageProvider) => Container(
