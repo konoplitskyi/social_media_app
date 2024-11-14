@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:like_button/like_button.dart';
 import 'package:social_media_app/features/auth/domain/entities/app_user.dart';
 import 'package:social_media_app/features/auth/presentation/components/my_textfield.dart';
 import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.dart';
@@ -244,16 +245,22 @@ class _PostTileState extends State<PostTile> {
                   width: 50,
                   child: Row(
                     children: [
-                      GestureDetector(
-                        onTap: () => toggleLikePost(isLiked),
-                        child: Icon(
-                          isLiked ? Icons.favorite : Icons.favorite_border,
-                          color: isLiked
-                              ? Colors.red
-                              : Theme.of(context).colorScheme.primary,
-                        ),
+                      LikeButton(
+                        isLiked: isLiked,
+                        onTap: (isLiked) async {
+                          await toggleLikePost(isLiked);
+
+                          return true;
+                        },
+                        likeBuilder: (onTapped) {
+                          return Icon(
+                            onTapped ? Icons.favorite : Icons.favorite_border,
+                            color: onTapped
+                                ? Colors.red
+                                : Theme.of(context).colorScheme.primary,
+                          );
+                        },
                       ),
-                      const SizedBox(width: 5),
                       Text(
                         widget.post.likes.length.toString(),
                         style: TextStyle(
@@ -280,7 +287,7 @@ class _PostTileState extends State<PostTile> {
                       Text(
                         widget.post.comments.length.toString(),
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 14,
                           color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
