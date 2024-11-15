@@ -9,6 +9,7 @@ import 'package:social_media_app/features/auth/presentation/components/my_textfi
 import 'package:social_media_app/features/profile/domain/entities/profile_user.dart';
 import 'package:social_media_app/features/profile/presenation/cubit/profile_cubit.dart';
 import 'package:social_media_app/features/profile/presenation/cubit/profile_states.dart';
+import 'package:social_media_app/responsive/constrained_scaffold.dart';
 
 class EditProfilePage extends StatefulWidget {
   final ProfileUser user;
@@ -107,7 +108,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget buildEditPage() {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
+      child: ConstrainedScaffold(
         appBar: AppBar(
           title: const Text('Edit Profile'),
           foregroundColor: Theme.of(context).colorScheme.primary,

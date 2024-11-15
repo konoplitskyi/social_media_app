@@ -11,6 +11,7 @@ import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.da
 import 'package:social_media_app/features/post/domain/entittes/post.dart';
 import 'package:social_media_app/features/post/presentation/cubit/post_cubit.dart';
 import 'package:social_media_app/features/post/presentation/cubit/post_states.dart';
+import 'package:social_media_app/responsive/constrained_scaffold.dart';
 
 class UploadPostPage extends StatefulWidget {
   const UploadPostPage({super.key});
@@ -114,7 +115,7 @@ class _UploadPostPageState extends State<UploadPostPage> {
   Widget buildUploadPage() {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
+      child: ConstrainedScaffold(
         appBar: AppBar(
           title: const Text('Create Post'),
           foregroundColor: Theme.of(context).colorScheme.primary,

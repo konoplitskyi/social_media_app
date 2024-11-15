@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/features/profile/presenation/components/user_tile.dart';
 import 'package:social_media_app/features/profile/presenation/cubit/profile_cubit.dart';
+import 'package:social_media_app/responsive/constrained_scaffold.dart';
 
 class FollowerPage extends StatelessWidget {
   final List<String> followers;
@@ -16,7 +17,7 @@ class FollowerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
-      child: Scaffold(
+      child: ConstrainedScaffold(
         appBar: AppBar(
           bottom: TabBar(
             dividerColor: Colors.transparent,

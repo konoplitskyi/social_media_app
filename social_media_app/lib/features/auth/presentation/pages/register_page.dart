@@ -4,6 +4,7 @@ import 'package:social_media_app/features/auth/presentation/components/my_button
 import 'package:social_media_app/features/auth/presentation/components/my_textfield.dart';
 import 'package:social_media_app/features/auth/presentation/components/show_message.dart';
 import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.dart';
+import 'package:social_media_app/responsive/constrained_scaffold.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
@@ -73,8 +74,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[300],
+    return ConstrainedScaffold(
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
