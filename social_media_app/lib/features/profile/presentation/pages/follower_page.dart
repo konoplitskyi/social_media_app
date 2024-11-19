@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_media_app/features/profile/presenation/components/user_tile.dart';
-import 'package:social_media_app/features/profile/presenation/cubit/profile_cubit.dart';
+import 'package:social_media_app/features/profile/presentation/components/user_tile.dart';
+import 'package:social_media_app/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:social_media_app/responsive/constrained_scaffold.dart';
 
 class FollowerPage extends StatelessWidget {
@@ -41,17 +41,17 @@ class FollowerPage extends StatelessWidget {
 
   Widget _buildUserList(
     BuildContext context,
-    List<String> uids,
+    List<String> uIds,
     String emptyMessage,
   ) {
-    return uids.isEmpty
+    return uIds.isEmpty
         ? Center(
             child: Text(emptyMessage),
           )
         : ListView.builder(
-            itemCount: uids.length,
+            itemCount: uIds.length,
             itemBuilder: (context, index) {
-              final uid = uids[index];
+              final uid = uIds[index];
 
               return FutureBuilder(
                 future: context.read<ProfileCubit>().getUserProfile(uid),

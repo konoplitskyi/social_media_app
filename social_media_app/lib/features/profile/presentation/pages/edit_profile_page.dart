@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/features/auth/presentation/components/my_textfield.dart';
 import 'package:social_media_app/features/profile/domain/entities/profile_user.dart';
-import 'package:social_media_app/features/profile/presenation/cubit/profile_cubit.dart';
-import 'package:social_media_app/features/profile/presenation/cubit/profile_states.dart';
+import 'package:social_media_app/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:social_media_app/features/profile/presentation/cubit/profile_states.dart';
 import 'package:social_media_app/responsive/constrained_scaffold.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -150,24 +150,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               // no image selected -> display existing profile pic
                               CachedNetworkImage(
                                   imageUrl: widget.user.profileImageUrl,
-
-                                  // loading..
+                                  fit: BoxFit.cover,
                                   placeholder: (context, url) =>
                                       const CircularProgressIndicator(),
-
-                                  // error -> failed to load
                                   errorWidget: (context, url, error) => Icon(
                                     Icons.person,
                                     size: 72,
                                     color:
                                         Theme.of(context).colorScheme.primary,
-                                  ),
-
-                                  // loaded
-                                  imageBuilder: (context, imageProvider) =>
-                                      Image(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
                                   ),
                                 ),
                 ),

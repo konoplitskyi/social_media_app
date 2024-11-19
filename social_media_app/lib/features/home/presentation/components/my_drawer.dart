@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.dart';
+import 'package:social_media_app/features/chat/presentation/chat_list/pages/chat_list_page.dart';
 import 'package:social_media_app/features/home/presentation/components/my_drawer_tile.dart';
-import 'package:social_media_app/features/profile/presenation/pages/profile_page.dart';
+import 'package:social_media_app/features/profile/presentation/pages/profile_page.dart';
 import 'package:social_media_app/features/search/presentation/pages/search_page.dart';
-import 'package:social_media_app/features/settings/pages/settigs_page.dart';
+import 'package:social_media_app/features/settings/pages/settings_page.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -33,6 +34,20 @@ class MyDrawer extends StatelessWidget {
                 title: 'H O M E',
                 icon: Icons.home,
                 onTap: () => Navigator.of(context).pop(),
+              ),
+              MyDrawerTile(
+                title: 'C H A T',
+                icon: Icons.home,
+                onTap: () {
+                  Navigator.of(context).pop();
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ChatListPage(),
+                    ),
+                  );
+                },
               ),
               MyDrawerTile(
                 title: 'P R O F I L E',

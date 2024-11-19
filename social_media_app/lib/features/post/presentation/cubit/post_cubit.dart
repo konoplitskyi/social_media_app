@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_media_app/features/post/domain/entittes/comment.dart';
-import 'package:social_media_app/features/post/domain/entittes/post.dart';
+import 'package:social_media_app/features/post/domain/entities/comment.dart';
+import 'package:social_media_app/features/post/domain/entities/post.dart';
 import 'package:social_media_app/features/post/domain/repository/post_repo.dart';
 import 'package:social_media_app/features/post/presentation/cubit/post_states.dart';
 import 'package:social_media_app/storage/domain/storage_repo.dart';
@@ -57,7 +57,7 @@ class PostCubit extends Cubit<PostState> {
     }
   }
 
-  Future<void> toogleLikePost(String postId, String userId) async {
+  Future<void> toggleLikePost(String postId, String userId) async {
     try {
       await postRepo.toggleLikePost(postId, userId);
     } catch (e) {

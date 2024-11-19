@@ -54,70 +54,68 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedScaffold(
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 50),
-                  Icon(
-                    Icons.lock,
-                    size: 80,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 50),
+                Icon(
+                  Icons.lock,
+                  size: 80,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                const SizedBox(height: 50),
+                Text(
+                  'Welcome back you\'ve been missed!',
+                  style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
+                    fontSize: 16,
                   ),
-                  const SizedBox(height: 50),
-                  Text(
-                    'Welcome back you\'ve been missed!',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize: 16,
+                ),
+                const SizedBox(height: 25),
+                MyTextField(
+                  controller: emailController,
+                  hintText: 'Email',
+                  obscureText: false,
+                ),
+                const SizedBox(height: 10),
+                MyTextField(
+                  controller: passwordController,
+                  hintText: 'Password',
+                  obscureText: true,
+                ),
+                const SizedBox(height: 25),
+                MyButton(
+                  onTap: login,
+                  text: 'Login',
+                ),
+                const SizedBox(height: 50),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Not a member?',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 25),
-                  MyTextField(
-                    controller: emailController,
-                    hintText: 'Email',
-                    obscureText: false,
-                  ),
-                  const SizedBox(height: 10),
-                  MyTextField(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    obscureText: true,
-                  ),
-                  const SizedBox(height: 25),
-                  MyButton(
-                    onTap: login,
-                    text: 'Login',
-                  ),
-                  const SizedBox(height: 50),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Not a member?',
+                    const SizedBox(width: 4),
+                    GestureDetector(
+                      onTap: widget.onTap,
+                      child: Text(
+                        'Register now',
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 4),
-                      GestureDetector(
-                        onTap: widget.onTap,
-                        child: Text(
-                          'Register now',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
         ),

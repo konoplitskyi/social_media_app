@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/features/auth/domain/entities/app_user.dart';
 import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.dart';
+import 'package:social_media_app/features/chat/presentation/user_chat/pages/user_chat_page.dart';
 import 'package:social_media_app/features/post/presentation/components/post_tile.dart';
 import 'package:social_media_app/features/post/presentation/cubit/post_cubit.dart';
 import 'package:social_media_app/features/post/presentation/cubit/post_states.dart';
-import 'package:social_media_app/features/profile/presenation/components/bio_box.dart';
-import 'package:social_media_app/features/profile/presenation/components/follow_button.dart';
-import 'package:social_media_app/features/profile/presenation/components/profile_stats.dart';
-import 'package:social_media_app/features/profile/presenation/cubit/profile_cubit.dart';
-import 'package:social_media_app/features/profile/presenation/cubit/profile_states.dart';
-import 'package:social_media_app/features/profile/presenation/pages/edit_profile_page.dart';
-import 'package:social_media_app/features/profile/presenation/pages/follower_page.dart';
+import 'package:social_media_app/features/profile/presentation/components/bio_box.dart';
+import 'package:social_media_app/features/profile/presentation/components/chat_button.dart';
+import 'package:social_media_app/features/profile/presentation/components/follow_button.dart';
+import 'package:social_media_app/features/profile/presentation/components/profile_stats.dart';
+import 'package:social_media_app/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:social_media_app/features/profile/presentation/cubit/profile_states.dart';
+import 'package:social_media_app/features/profile/presentation/pages/edit_profile_page.dart';
+import 'package:social_media_app/features/profile/presentation/pages/follower_page.dart';
 import 'package:social_media_app/responsive/constrained_scaffold.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -112,34 +114,36 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 25),
                 Center(
-                  child: CachedNetworkImage(
-                    imageUrl: user.profileImageUrl,
-
-                    // loading..
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-
-                    // error -> failed to load
-                    errorWidget: (context, url, error) => Icon(
-                      Icons.person,
-                      size: 72,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-
-                    // loaded
-                    imageBuilder: (context, imageProvider) => Container(
-                      height: 120,
-                      width: 120,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+                  child: SizedBox(
+                    height: 120,
+                    width: 120,
+                    child: user.profileImageUrl.isEmpty
+                        ? Icon(
+                            Icons.person,
+                            size: 72,
+                            color: Theme.of(context).colorScheme.primary,
+                          )
+                        : CachedNetworkImage(
+                            imageUrl: user.profileImageUrl,
+                            placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            errorWidget: (context, url, error) => Icon(
+                              Icons.person,
+                              size: 72,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            imageBuilder: (context, imageProvider) => Container(
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
                   ),
                 ),
                 const SizedBox(height: 25),
@@ -160,10 +164,30 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 25),
                 if (!isOwnPost)
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 25),
-                    child: FollowButton(
-                      onPressed: followButtonPressed,
-                      isFollowing: user.followers.contains(currentUser!.uid),
+                    padding:
+                        const EdgeInsets.only(left: 25, right: 25, bottom: 25),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: FollowButton(
+                            onPressed: followButtonPressed,
+                            isFollowing:
+                                user.followers.contains(currentUser!.uid),
+                          ),
+                        ),
+                        const SizedBox(width: 25),
+                        Expanded(
+                          child: ChatButton(
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    UserChatPage(receiverUser: user),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 Padding(

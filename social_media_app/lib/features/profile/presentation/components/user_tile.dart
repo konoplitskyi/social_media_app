@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:social_media_app/features/profile/domain/entities/profile_user.dart';
-import 'package:social_media_app/features/profile/presenation/pages/profile_page.dart';
+import 'package:social_media_app/features/profile/presentation/pages/profile_page.dart';
 
 class UserTile extends StatelessWidget {
   final ProfileUser user;

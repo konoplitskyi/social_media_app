@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/features/auth/domain/entities/app_user.dart';
 import 'package:social_media_app/features/auth/domain/repository/auth_repo.dart';
-import 'package:social_media_app/features/auth/presentation/cubits/auth_stetes.dart';
+import 'package:social_media_app/features/auth/presentation/cubits/auth_states.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepo authRepo;
@@ -23,7 +23,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> login(String email, String password) async {
     try {
-      emit(AuthLaoding());
+      emit(AuthLoading());
       final user = await authRepo.loginWithEmailAndPassword(email, password);
       if (user != null) {
         _currentUser = user;
@@ -39,7 +39,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> register(String name, String email, String password) async {
     try {
-      emit(AuthLaoding());
+      emit(AuthLoading());
       final user =
           await authRepo.registerWithEmailAndPassword(name, email, password);
       if (user != null) {

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:social_media_app/features/post/domain/entittes/comment.dart';
+import 'package:social_media_app/features/post/domain/entities/comment.dart';
 
 class Post {
   final String id;
@@ -49,7 +49,7 @@ class Post {
   }
 
   factory Post.fromJson(Map<String, dynamic> json) {
-    //prepere comments
+    //prepare comments
     final List<Comment> comments = (json['comments'] as List<dynamic>?)
             ?.map((commentJson) => Comment.fromJson(commentJson))
             .toList() ??
@@ -60,7 +60,7 @@ class Post {
       userId: json['userId'],
       userName: json['name'],
       text: json['text'],
-      imageUrl: json['imageUrl'],
+      imageUrl: json['imageUrl'] ?? '',
       timestamp: (json['timestamp'] as Timestamp).toDate(),
       likes: List<String>.from(json['likes'] ?? []),
       comments: comments,

@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/features/profile/domain/entities/profile_user.dart';
 import 'package:social_media_app/features/profile/domain/repository/profile_repo.dart';
-import 'package:social_media_app/features/profile/presenation/cubit/profile_states.dart';
+import 'package:social_media_app/features/profile/presentation/cubit/profile_states.dart';
 import 'package:social_media_app/storage/domain/storage_repo.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {

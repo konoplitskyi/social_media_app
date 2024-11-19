@@ -4,12 +4,14 @@ class ConstrainedScaffold extends StatelessWidget {
   final Widget body;
   final PreferredSizeWidget? appBar;
   final Widget? drawer;
+  final Color? backgroundColor;
 
   const ConstrainedScaffold({
     super.key,
     required this.body,
     this.appBar,
     this.drawer,
+    this.backgroundColor,
   });
 
   @override
@@ -17,6 +19,7 @@ class ConstrainedScaffold extends StatelessWidget {
     return Scaffold(
       appBar: appBar,
       drawer: drawer,
+      backgroundColor: backgroundColor,
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(

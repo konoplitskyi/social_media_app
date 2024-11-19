@@ -6,14 +6,14 @@ import 'package:like_button/like_button.dart';
 import 'package:social_media_app/features/auth/domain/entities/app_user.dart';
 import 'package:social_media_app/features/auth/presentation/components/my_textfield.dart';
 import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.dart';
-import 'package:social_media_app/features/post/domain/entittes/comment.dart';
-import 'package:social_media_app/features/post/domain/entittes/post.dart';
+import 'package:social_media_app/features/post/domain/entities/comment.dart';
+import 'package:social_media_app/features/post/domain/entities/post.dart';
 import 'package:social_media_app/features/post/presentation/components/comment_tile.dart';
 import 'package:social_media_app/features/post/presentation/cubit/post_cubit.dart';
 import 'package:social_media_app/features/post/presentation/cubit/post_states.dart';
 import 'package:social_media_app/features/profile/domain/entities/profile_user.dart';
-import 'package:social_media_app/features/profile/presenation/cubit/profile_cubit.dart';
-import 'package:social_media_app/features/profile/presenation/pages/profile_page.dart';
+import 'package:social_media_app/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:social_media_app/features/profile/presentation/pages/profile_page.dart';
 
 class PostTile extends StatefulWidget {
   final Post post;
@@ -32,6 +32,7 @@ class PostTile extends StatefulWidget {
 class _PostTileState extends State<PostTile> {
   late final postCubit = context.read<PostCubit>();
   late final profileCubit = context.read<ProfileCubit>();
+  late final authCubit = context.read<AuthCubit>();
   final commentTextController = TextEditingController();
 
   bool isOwnPost = false;
@@ -53,7 +54,6 @@ class _PostTileState extends State<PostTile> {
   }
 
   void getCurrentUser() {
-    final authCubit = context.read<AuthCubit>();
     currentUser = authCubit.currentUser;
     isOwnPost = (widget.post.userId == currentUser!.uid);
   }
@@ -179,35 +179,34 @@ class _PostTileState extends State<PostTile> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  postUser?.profileImageUrl != null
-                      ? CachedNetworkImage(
-                          imageUrl: postUser!.profileImageUrl,
-                          placeholder: (context, url) => const SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: Center(
+                  SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: postUser?.profileImageUrl == null ||
+                            postUser!.profileImageUrl.isEmpty
+                        ? const Icon(Icons.person)
+                        : CachedNetworkImage(
+                            imageUrl: postUser!.profileImageUrl,
+                            placeholder: (context, url) => const Center(
                               child: SizedBox(
                                 height: 20,
                                 width: 20,
                                 child: CircularProgressIndicator(),
                               ),
                             ),
-                          ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.person),
-                          imageBuilder: (context, imageProvider) => Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.person),
+                            imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
-                        )
-                      : const Icon(Icons.person),
+                  ),
                   const SizedBox(width: 10),
                   Text(
                     widget.post.userName,
@@ -229,13 +228,20 @@ class _PostTileState extends State<PostTile> {
               ),
             ),
           ),
-          CachedNetworkImage(
-            imageUrl: widget.post.imageUrl,
+          SizedBox(
             height: 430,
             width: double.infinity,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => const SizedBox(height: 430),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
+            child: widget.post.imageUrl.isEmpty
+                ? const Icon(Icons.error)
+                : CachedNetworkImage(
+                    imageUrl: widget.post.imageUrl,
+                    height: 430,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => const SizedBox(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
           ),
           Padding(
             padding: const EdgeInsets.all(20),

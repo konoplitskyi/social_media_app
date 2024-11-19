@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:social_media_app/features/post/domain/entittes/comment.dart';
-import 'package:social_media_app/features/post/domain/entittes/post.dart';
+import 'package:social_media_app/features/post/domain/entities/comment.dart';
+import 'package:social_media_app/features/post/domain/entities/post.dart';
 import 'package:social_media_app/features/post/domain/repository/post_repo.dart';
 
 class FirebasePostRepo extends PostRepo {

@@ -75,82 +75,80 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedScaffold(
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 50),
-                  Icon(
-                    Icons.lock_open_rounded,
-                    size: 80,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 50),
+                Icon(
+                  Icons.lock_open_rounded,
+                  size: 80,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                const SizedBox(height: 50),
+                Text(
+                  'Let\'s create an account for you!',
+                  style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
+                    fontSize: 16,
                   ),
-                  const SizedBox(height: 50),
-                  Text(
-                    'Let\'s create an account for you!',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize: 16,
+                ),
+                const SizedBox(height: 25),
+                MyTextField(
+                  controller: nameController,
+                  hintText: 'Name',
+                  obscureText: false,
+                ),
+                const SizedBox(height: 10),
+                MyTextField(
+                  controller: emailController,
+                  hintText: 'Email',
+                  obscureText: false,
+                ),
+                const SizedBox(height: 10),
+                MyTextField(
+                  controller: passwordController,
+                  hintText: 'Password',
+                  obscureText: true,
+                ),
+                const SizedBox(height: 10),
+                MyTextField(
+                  controller: confirmPasswordController,
+                  hintText: 'Confirm Password',
+                  obscureText: true,
+                ),
+                const SizedBox(height: 25),
+                MyButton(
+                  onTap: register,
+                  text: 'Register',
+                ),
+                const SizedBox(height: 50),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Alreade have an account?',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 25),
-                  MyTextField(
-                    controller: nameController,
-                    hintText: 'Name',
-                    obscureText: false,
-                  ),
-                  const SizedBox(height: 10),
-                  MyTextField(
-                    controller: emailController,
-                    hintText: 'Email',
-                    obscureText: false,
-                  ),
-                  const SizedBox(height: 10),
-                  MyTextField(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    obscureText: true,
-                  ),
-                  const SizedBox(height: 10),
-                  MyTextField(
-                    controller: confirmPasswordController,
-                    hintText: 'Confirm Password',
-                    obscureText: true,
-                  ),
-                  const SizedBox(height: 25),
-                  MyButton(
-                    onTap: register,
-                    text: 'Register',
-                  ),
-                  const SizedBox(height: 50),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Alreade have an account?',
+                    const SizedBox(width: 4),
+                    GestureDetector(
+                      onTap: widget.onTap,
+                      child: Text(
+                        'Login now',
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 4),
-                      GestureDetector(
-                        onTap: widget.onTap,
-                        child: Text(
-                          'Login now',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
         ),

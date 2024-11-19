@@ -8,7 +8,7 @@ import 'package:social_media_app/features/auth/domain/entities/app_user.dart';
 import 'package:social_media_app/features/auth/presentation/components/my_textfield.dart';
 import 'package:social_media_app/features/auth/presentation/components/show_message.dart';
 import 'package:social_media_app/features/auth/presentation/cubits/auth_cubit.dart';
-import 'package:social_media_app/features/post/domain/entittes/post.dart';
+import 'package:social_media_app/features/post/domain/entities/post.dart';
 import 'package:social_media_app/features/post/presentation/cubit/post_cubit.dart';
 import 'package:social_media_app/features/post/presentation/cubit/post_states.dart';
 import 'package:social_media_app/responsive/constrained_scaffold.dart';

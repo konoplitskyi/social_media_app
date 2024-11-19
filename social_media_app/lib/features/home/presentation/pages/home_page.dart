@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedScaffold(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
         title: const Text('Home'),
         foregroundColor: Theme.of(context).colorScheme.primary,
